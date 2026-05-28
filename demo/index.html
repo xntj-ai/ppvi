@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>PPVI — PinPin Visual Identity</title>
+<style>
+  /* ─── Tokens ─────────────────────────────────────────── */
+  :root {
+    /* Dark base (page default) */
+    --bg-0: #0a0a0a;
+    --bg-1: #111111;
+    --bg-2: #161616;
+    --bg-3: #1c1c1c;
+    --line: rgba(255,255,255,0.06);
+    --line-strong: rgba(255,255,255,0.12);
+    --fg-0: #fafafa;
+    --fg-1: #d4d4d4;
+    --fg-2: #8a8a8a;
+    --fg-3: #525252;
+    --fg-4: #2e2e2e;
+    --accent: #d97757;          /* 赭红 — 唯一彩色 */
+    --accent-soft: rgba(217,119,87,.14);
+    --glass: rgba(255,255,255,0.035);
+    --glass-strong: rgba(255,255,255,0.06);
+    --shadow: 0 30px 80px -20px rgba(0,0,0,.65), 0 1px 0 rgba(255,255,255,.04) inset;
+    --blur: 48px;
+    --radius: 18px;
+    --radius-sm: 10px;
+    --max: 1280px;
+
+    /* Type scale (Strict 5 levels, fluid) */
+    --t-display: clamp(64px, 9vw, 132px);
+    --t-headline: clamp(38px, 5vw, 72px);
+    --t-subtitle: clamp(22px, 2.4vw, 32px);
+    --t-body: clamp(15px, 1.15vw, 17px);
+    --t-caption: clamp(12px, 0.85vw, 13px);
+
+    --font-zh: "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Source Han Sans SC", system-ui, sans-serif;
+    --font-en: -apple-system, "SF Pro Display", "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --font-mono: "SF Mono", "JetBrains Mono", "Fira Code", "Consolas", "Menlo", monospace;
+  }
+
+  /* Light-scope (used inside the side-by-side comparison only) */
+  .light {
+    --bg-0: #fafafa;
+    --bg-1: #f4f4f4;
+    --bg-2: #ededed;
+    --bg-3: #e4e4e4;
+    --line: rgba(0,0,0,0.06);
+    --line-strong: rgba(0,0,0,0.12);
+    --fg-0: #0a0a0a;
+    --fg-1: #1f1f1f;
+    --fg-2: #6b6b6b;
+    --fg-3: #a3a3a3;
+    --fg-4: #d4d4d4;
+    --accent: #c4622e;
+    --accent-soft: rgba(196,98,46,.10);
+    --glass: rgba(0,0,0,0.025);
+    --glass-strong: rgba(0,0,0,0.05);
+    --shadow: 0 20px 60px -20px rgba(0,0,0,.18), 0 1px 0 rgba(255,255,255,.6) inset;
+  }
+
+  /* ─── Reset ──────────────────────────────────────────── */
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--bg-0);
+    color: var(--fg-0);
+    font-family: var(--font-zh);
+    font-size: var(--t-body);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    word-break: keep-all;
+    overflow-wrap: anywhere;
+    text-wrap: pretty;
+  }
+
+  /* Noise overlay — fixed across page */
+  body::before {
+    content: "";
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.45 0'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.5'/></svg>");
+    opacity: 0.05;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+    z-index: 1;
+  }
+
+  /* Subtle radial wash */
+  body::after {
+    content: "";
+    position: fixed; inset: 0;
+    background:
+      radial-gradient(900px 600px at 78% 8%, rgba(217,119,87,0.08), transparent 60%),
+      radial-gradient(700px 500px at 8% 92%, rgba(255,255,255,0.03), transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  main { position: relative; z-index: 2; }
+
+  /* ─── Layout primitives ──────────────────────────────── */
+  .wrap {
+    max-width: var(--max);
+    margin: 0 auto;
+    padding: 0 clamp(24px, 5vw, 72px);
+  }
+
+  section { padding: clamp(80px, 12vh, 160px) 0; position: relative; }
+
+  /* ─── Typography ─────────────────────────────────────── */
+  .display {
+    font-family: var(--font-en);
+    font-size: var(--t-display);
+    font-weight: 700;
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    color: var(--fg-0);
+  }
+  .headline {
+    font-size: var(--t-headline);
+    font-weight: 600;
+    line-height: 1.08;
+    letter-spacing: -0.025em;
+    color: var(--fg-0);
+  }
+  .subtitle {
+    font-size: var(--t-subtitle);
+    font-weight: 550;
+    line-height: 1.25;
+    letter-spacing: -0.015em;
+    color: var(--fg-0);
+  }
+  .body { font-size: var(--t-body); color: var(--fg-1); }
+  .body--quiet { color: var(--fg-2); }
+  .caption {
+    font-size: var(--t-caption);
+    color: var(--fg-2);
+    font-family: var(--font-mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .accent { color: var(--accent); }
+  em.en { font-style: italic; font-family: var(--font-en); color: var(--fg-2); font-weight: 400; }
+
+  /* ─── Hero ───────────────────────────────────────────── */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-top: clamp(40px, 8vh, 80px);
+    padding-bottom: clamp(40px, 6vh, 60px);
+  }
+  .hero__top {
+    display: flex; justify-content: space-between; align-items: center;
+    gap: 24px;
+  }
+  .badge {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 8px 14px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: var(--glass);
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  }
+  .badge .dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent);
+    box-shadow: 0 0 14px var(--accent);
+  }
+  .hero__mid { display: grid; gap: clamp(24px, 4vh, 48px); align-self: end; padding-top: 8vh; }
+  .hero__title { display: flex; align-items: baseline; gap: clamp(16px, 3vw, 40px); flex-wrap: wrap; }
+  .hero__title .display { font-size: clamp(96px, 14vw, 220px); }
+  .hero__sub {
+    max-width: 720px;
+    color: var(--fg-1);
+  }
+  .hero__sub strong { color: var(--fg-0); font-weight: 600; }
+  .hero__bottom {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    gap: 32px; flex-wrap: wrap;
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+    margin-top: 60px;
+  }
+  .hero__bottom .col { display: grid; gap: 6px; }
+  .meta { color: var(--fg-2); font-size: var(--t-caption); font-family: var(--font-mono); letter-spacing: .06em; }
+  .meta-val { color: var(--fg-0); font-size: var(--t-body); font-family: var(--font-zh); letter-spacing: 0; }
+
+  /* ─── Section header ─────────────────────────────────── */
+  .sec-head {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: clamp(24px, 4vw, 64px);
+    align-items: baseline;
+    margin-bottom: clamp(40px, 6vh, 80px);
+  }
+  .sec-head .num {
+    font-family: var(--font-mono);
+    font-size: var(--t-caption);
+    color: var(--fg-3);
+    letter-spacing: .1em;
+    border-top: 1px solid var(--line-strong);
+    padding-top: 10px;
+  }
+  .sec-head h2 { margin: 0; }
+  .sec-head .en { display: block; margin-top: 8px; font-style: italic; color: var(--fg-2); font-family: var(--font-en); font-weight: 400; font-size: clamp(16px, 1.4vw, 19px); letter-spacing: 0; }
+  .sec-head .lede { margin-top: 18px; max-width: 640px; color: var(--fg-1); }
+
+  /* ─── Card / Glass ───────────────────────────────────── */
+  .card {
+    background: var(--glass);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    backdrop-filter: blur(var(--blur)); -webkit-backdrop-filter: blur(var(--blur));
+    box-shadow: var(--shadow);
+    container-type: inline-size;
+  }
+  .card--tight { padding: clamp(16px, 2vw, 24px); }
+  .card--loose { padding: clamp(28px, 4vw, 48px); }
+
+  /* ─── Mode comparison ────────────────────────────────── */
+  .dual {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: clamp(20px, 3vw, 32px);
+    margin-top: 32px;
+  }
+  .dual__panel {
+    padding: clamp(28px, 4vw, 44px);
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: var(--bg-0);
+    position: relative;
+    overflow: hidden;
+    min-height: 360px;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 28px;
+  }
+  .dual__panel::before {
+    content: "";
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='0.4'/></svg>");
+    opacity: 0.08;
+    pointer-events: none;
+  }
+  .dual__head { display: flex; justify-content: space-between; align-items: baseline; }
+  .dual__label { font-family: var(--font-mono); font-size: var(--t-caption); color: var(--fg-2); letter-spacing: .12em; text-transform: uppercase; }
+  .dual__hex { font-family: var(--font-mono); font-size: var(--t-caption); color: var(--fg-3); }
+
+  .demo-card {
+    padding: 22px;
+    background: var(--glass-strong);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-sm);
+    display: grid; gap: 14px;
+    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  }
+  .demo-card .row1 { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .demo-card .row1 .title { font-size: 18px; font-weight: 600; color: var(--fg-0); }
+  .demo-card .row1 .tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    letter-spacing: .08em;
+  }
+  .demo-card .row2 { color: var(--fg-2); font-size: 14px; line-height: 1.55; }
+  .demo-card .row3 { display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 1px solid var(--line); }
+  .demo-card .row3 .num { font-family: var(--font-mono); font-size: 22px; color: var(--fg-0); font-weight: 600; }
+  .demo-card .row3 .delta { font-family: var(--font-mono); font-size: 12px; color: var(--accent); }
+
+  .dual__foot {
+    display: flex; justify-content: space-between; align-items: center;
+    color: var(--fg-3); font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em;
+  }
+  .dual__foot .dots { display: flex; gap: 6px; }
+  .dual__foot .dots i {
+    display: inline-block; width: 10px; height: 10px; border-radius: 3px; border: 1px solid var(--line);
+  }
+  .dual__foot .dots i.fill { background: var(--accent); border-color: var(--accent); }
+
+  /* ─── Principle blocks ───────────────────────────────── */
+  .prin-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+  @media (min-width: 880px) {
+    .prin-grid { grid-template-columns: 1fr 1.4fr; align-items: start; }
+  }
+  .prin-explain { display: grid; gap: 16px; padding-right: 12px; }
+  .prin-explain ul { margin: 0; padding-left: 18px; color: var(--fg-2); }
+  .prin-explain ul li { margin-bottom: 8px; }
+  .prin-explain ul li strong { color: var(--fg-1); font-weight: 500; }
+  .prin-show { display: grid; gap: 18px; }
+
+  /* ─── 01 Restraint ───────────────────────────────────── */
+  .restraint {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .restraint__col {
+    padding: 28px;
+    border-radius: var(--radius);
+    background: var(--glass);
+    border: 1px solid var(--line);
+    backdrop-filter: blur(var(--blur)); -webkit-backdrop-filter: blur(var(--blur));
+    display: grid; gap: 18px;
+  }
+  .restraint__tag {
+    font-family: var(--font-mono); font-size: 11px; letter-spacing: .14em;
+    text-transform: uppercase;
+    display: inline-flex; align-items: center; gap: 8px;
+    color: var(--fg-2);
+  }
+  .restraint__tag.bad::before { content: "×"; width: 18px; height: 18px; display: grid; place-items: center; border-radius: 50%; background: rgba(255,80,80,.15); color: #ff8e7a; font-size: 13px; }
+  .restraint__tag.good::before { content: "✓"; width: 18px; height: 18px; display: grid; place-items: center; border-radius: 50%; background: var(--accent-soft); color: var(--accent); font-size: 11px; }
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  .btn {
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--fg-1);
+    font-family: var(--font-zh);
+    cursor: default;
+  }
+  .btn.b-red { background: #d44; color: #fff; border-color: transparent; }
+  .btn.b-blue { background: #3a7dff; color: #fff; border-color: transparent; }
+  .btn.b-green { background: #21b67a; color: #fff; border-color: transparent; }
+  .btn.b-purple { background: #9b59ff; color: #fff; border-color: transparent; }
+  .btn.b-orange { background: #ff8a3d; color: #fff; border-color: transparent; }
+  .btn.b-primary { background: var(--accent); color: #fff; border-color: transparent; }
+  .restraint__note { color: var(--fg-3); font-size: 12px; font-family: var(--font-mono); letter-spacing: .04em; }
+
+  @media (max-width: 640px) { .restraint { grid-template-columns: 1fr; } }
+
+  /* ─── 02 Grayscale ───────────────────────────────────── */
+  .gray-ramp {
+    display: grid;
+    grid-template-columns: repeat(11, 1fr);
+    gap: 0;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .gray-ramp .swatch {
+    aspect-ratio: 1;
+    display: grid;
+    place-items: end start;
+    padding: 8px;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--fg-3);
+    position: relative;
+  }
+  .gray-ramp .swatch.accent {
+    background: var(--accent) !important;
+    color: #fff;
+  }
+  .gray-ramp .swatch.accent::after {
+    content: "↑ accent"; position: absolute; left: 8px; top: 8px; font-size: 9px;
+  }
+  .ratio-bar {
+    height: 28px;
+    display: flex;
+    border-radius: 999px;
+    overflow: hidden;
+    border: 1px solid var(--line);
+  }
+  .ratio-bar .seg-gray { flex: 85; background: var(--bg-3); }
+  .ratio-bar .seg-accent { flex: 15; background: var(--accent); }
+  .ratio-legend {
+    display: flex; justify-content: space-between;
+    font-family: var(--font-mono); font-size: 11px;
+    color: var(--fg-2); letter-spacing: .04em;
+  }
+
+  /* ─── 03 Hierarchy ───────────────────────────────────── */
+  .scale-list {
+    display: grid;
+    gap: 14px;
+    padding: 8px 0;
+  }
+  .scale-row {
+    display: grid;
+    grid-template-columns: 90px 1fr 90px;
+    align-items: baseline;
+    gap: 18px;
+    padding: 14px 18px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: var(--glass);
+  }
+  .scale-row .level { font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); letter-spacing: .12em; text-transform: uppercase; }
+  .scale-row .sample { color: var(--fg-0); line-height: 1; }
+  .scale-row .meta-r { text-align: right; font-family: var(--font-mono); font-size: 11px; color: var(--fg-3); letter-spacing: .04em; }
+  .s-display .sample { font-size: 56px; font-weight: 700; letter-spacing: -0.03em; font-family: var(--font-en); }
+  .s-headline .sample { font-size: 36px; font-weight: 600; letter-spacing: -0.02em; }
+  .s-subtitle .sample { font-size: 22px; font-weight: 550; }
+  .s-body .sample { font-size: 16px; font-weight: 400; color: var(--fg-1); }
+  .s-caption .sample { font-size: 12px; font-weight: 400; color: var(--fg-2); font-family: var(--font-mono); letter-spacing: .12em; text-transform: uppercase; }
+
+  /* ─── 04 Glass ───────────────────────────────────────── */
+  .glass-stack {
+    position: relative;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--line);
+    height: 420px;
+    background:
+      radial-gradient(450px 320px at 20% 30%, rgba(217,119,87,0.35), transparent 60%),
+      radial-gradient(450px 320px at 80% 70%, rgba(80,120,255,0.22), transparent 60%),
+      linear-gradient(135deg, #1a1a1a, #0a0a0a);
+  }
+  .glass-stack__noise {
+    position: absolute; inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+    opacity: 0.18;
+    mix-blend-mode: overlay;
+    pointer-events: none;
+  }
+  .glass-stack__pane {
+    position: absolute;
+    left: 8%; right: 8%; top: 18%; bottom: 18%;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px;
+    backdrop-filter: blur(48px); -webkit-backdrop-filter: blur(48px);
+    box-shadow: 0 20px 60px rgba(0,0,0,.4), 0 1px 0 rgba(255,255,255,.08) inset;
+    padding: 28px;
+    display: grid;
+    gap: 8px;
+    align-content: center;
+    color: var(--fg-0);
+  }
+  .glass-stack__pane .label {
+    font-family: var(--font-mono); font-size: 11px; color: rgba(255,255,255,.6); letter-spacing: .14em; text-transform: uppercase;
+  }
+  .glass-stack__pane .title { font-size: 22px; font-weight: 600; letter-spacing: -0.01em; }
+  .glass-stack__pane .desc { font-size: 13px; color: rgba(255,255,255,.7); line-height: 1.55; }
+
+  .glass-layers {
+    display: grid;
+    gap: 10px;
+    padding: 16px 0;
+  }
+  .glass-layer {
+    display: grid;
+    grid-template-columns: 24px 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--line);
+    background: var(--glass);
+  }
+  .glass-layer .ix {
+    width: 20px; height: 20px; border-radius: 5px;
+    background: var(--bg-3); border: 1px solid var(--line-strong);
+    font-family: var(--font-mono); font-size: 10px;
+    display: grid; place-items: center; color: var(--fg-2);
+  }
+  .glass-layer .nm { color: var(--fg-0); font-size: 14px; font-weight: 500; }
+  .glass-layer .nm span { display: block; color: var(--fg-2); font-size: 12px; font-weight: 400; margin-top: 2px; }
+  .glass-layer .vl { font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); letter-spacing: .04em; }
+
+  /* ─── 05 Density ─────────────────────────────────────── */
+  .density {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .density__col {
+    padding: 24px;
+    border-radius: var(--radius);
+    background: var(--glass);
+    border: 1px solid var(--line);
+    display: grid; gap: 18px;
+  }
+  .density__col .lab { font-family: var(--font-mono); font-size: 11px; color: var(--fg-2); letter-spacing: .14em; text-transform: uppercase; }
+  .density__col .lab span { color: var(--fg-0); margin-left: 6px; }
+  .density__demo { padding: 12px; background: var(--bg-2); border: 1px solid var(--line); border-radius: 10px; }
+  .density__demo .item {
+    padding: 8px 10px;
+    background: var(--bg-3);
+    border-radius: 6px;
+    font-size: 12px;
+    color: var(--fg-1);
+    margin-bottom: 4px;
+  }
+  .density__demo--cramped .item { padding: 4px 8px; margin-bottom: 2px; font-size: 11px; }
+  .density__demo--good { padding: 20px; }
+  .density__demo--good .item { padding: 14px 16px; margin-bottom: 10px; font-size: 13px; }
+  .density__demo--good .item:last-child { margin-bottom: 0; }
+  .density__note { font-size: 12px; color: var(--fg-3); font-family: var(--font-mono); letter-spacing: .04em; }
+  @media (max-width: 640px) { .density { grid-template-columns: 1fr; } }
+
+  /* ─── Decision framework ─────────────────────────────── */
+  .frame {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .frame__row {
+    background: var(--bg-1);
+    padding: clamp(20px, 3vw, 32px) clamp(20px, 4vw, 40px);
+    display: grid;
+    grid-template-columns: 80px 1fr auto;
+    gap: clamp(20px, 4vw, 48px);
+    align-items: center;
+    transition: background .2s ease;
+  }
+  .frame__row:hover { background: var(--bg-2); }
+  .frame__num {
+    font-family: var(--font-mono); font-size: 24px; color: var(--accent); font-weight: 500;
+  }
+  .frame__q {
+    font-size: clamp(18px, 1.8vw, 22px); font-weight: 550; color: var(--fg-0); letter-spacing: -0.01em;
+  }
+  .frame__q span {
+    display: block; font-size: 13px; color: var(--fg-2); font-weight: 400; margin-top: 4px; letter-spacing: 0; font-family: var(--font-en); font-style: italic;
+  }
+  .frame__a {
+    font-family: var(--font-mono); font-size: 12px; color: var(--fg-2); letter-spacing: .04em;
+    text-align: right; max-width: 280px;
+  }
+  @media (max-width: 720px) {
+    .frame__row { grid-template-columns: 60px 1fr; }
+    .frame__a { grid-column: 2; text-align: left; }
+  }
+
+  /* ─── Anti-patterns ──────────────────────────────────── */
+  .anti-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+  }
+  .anti {
+    padding: 24px;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: var(--glass);
+    display: grid; gap: 12px;
+  }
+  .anti__head { display: flex; align-items: center; gap: 10px; }
+  .anti__x {
+    width: 22px; height: 22px; border-radius: 50%;
+    background: rgba(255,80,80,.12); color: #ff8e7a;
+    display: grid; place-items: center;
+    font-size: 14px; font-weight: 500;
+  }
+  .anti__t { font-size: 15px; font-weight: 600; color: var(--fg-0); }
+  .anti__d { color: var(--fg-2); font-size: 13px; line-height: 1.55; }
+  .anti__why {
+    font-family: var(--font-mono); font-size: 11px; color: var(--fg-3);
+    letter-spacing: .04em; padding-top: 10px; border-top: 1px solid var(--line);
+  }
+  .anti__why b { color: var(--accent); font-weight: 500; }
+
+  /* ─── Footer ─────────────────────────────────────────── */
+  footer {
+    padding: 60px 0;
+    border-top: 1px solid var(--line);
+    margin-top: 80px;
+  }
+  .foot-grid {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 24px;
+    align-items: end;
+    color: var(--fg-2);
+  }
+  .foot-grid .big {
+    font-family: var(--font-en); font-size: clamp(40px, 6vw, 80px); font-weight: 700;
+    color: var(--fg-0); letter-spacing: -0.04em; line-height: 0.95;
+  }
+  .foot-meta { display: grid; gap: 4px; text-align: right; }
+  .foot-meta span { display: block; font-family: var(--font-mono); font-size: 11px; letter-spacing: .08em; }
+  .foot-meta span.k { color: var(--fg-3); }
+  .foot-meta span.v { color: var(--fg-1); }
+
+  /* ─── Helpers ────────────────────────────────────────── */
+  .stack-12 > * + * { margin-top: 12px; }
+  .stack-20 > * + * { margin-top: 20px; }
+  .divider {
+    height: 1px; background: var(--line); margin: 12px 0;
+  }
+</style>
+</head>
+<body>
+
+<main>
+
+  <!-- ─── HERO ──────────────────────────────────────────── -->
+  <section class="hero">
+    <div class="wrap" style="display: grid; gap: clamp(60px, 12vh, 120px);">
+      <div class="hero__top">
+        <span class="badge">
+          <span class="dot"></span>
+          <span class="caption" style="color: var(--fg-1);">PinPin · Visual Identity</span>
+        </span>
+        <span class="caption">v1.0 · 2026</span>
+      </div>
+
+      <div class="hero__mid">
+        <div class="hero__title">
+          <h1 class="display">PPVI</h1>
+          <em class="en" style="font-size: clamp(18px, 1.8vw, 26px);">— a system of restraint</em>
+        </div>
+        <p class="headline" style="max-width: 12ch;">设计的本质<br/>不是加法,<br/>是<span class="accent">选择</span>。</p>
+        <p class="body hero__sub">
+          PPVI 是一套经过实战验证的设计美学方法论。它不教你"加什么让页面好看",
+          而是回答"为什么减到这里就够了"。<strong>每一个像素都是一次审美决策</strong>,
+          每一条原则背后都是一次取舍。
+        </p>
+      </div>
+
+      <div class="wrap" style="padding: 0;">
+        <div class="hero__bottom">
+          <div style="display: flex; gap: clamp(28px, 5vw, 64px); flex-wrap: wrap;">
+            <div class="col">
+              <span class="meta">05 / Principles</span>
+              <span class="meta-val">克制 · 灰阶 · 层级 · 玻璃 · 呼吸</span>
+            </div>
+            <div class="col">
+              <span class="meta">02 / Modes</span>
+              <span class="meta-val">浅色系 · 深色系</span>
+            </div>
+            <div class="col">
+              <span class="meta">01 / Decision</span>
+              <span class="meta-val">问得出理由就保留</span>
+            </div>
+          </div>
+          <span class="caption">↓ Scroll</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── DUAL MODE: 同一组件两套色系 ────────────────────── -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="num">00 / Modes</span>
+        <div>
+          <h2 class="subtitle">同一套逻辑,两套表达</h2>
+          <em class="en">Same system, two surfaces.</em>
+          <p class="body lede">
+            浅色系 (#fafafa) 和深色系 (#0a0a0a) 不是两套独立的设计,而是同一套 token
+            在两种环境下的映射。背景层数、字重梯度、留白节奏、玻璃透明度——结构完全一致,
+            只是色值反转。<span class="accent">不存在"专属于深色"或"专属于浅色"的好设计</span>,
+            只存在"用同一套逻辑做出来的两种皮肤"。
+          </p>
+        </div>
+      </div>
+
+      <div class="dual">
+        <!-- LIGHT -->
+        <div class="dual__panel light">
+          <div class="dual__head">
+            <span class="dual__label">Light · 浅色系</span>
+            <span class="dual__hex">#fafafa → #ededed</span>
+          </div>
+          <div class="demo-card">
+            <div class="row1">
+              <span class="title">月度审美决策</span>
+              <span class="tag">ACTIVE</span>
+            </div>
+            <div class="row2">每一个像素都问一次"它为什么在这里"。问不出来,就删掉。</div>
+            <div class="row3">
+              <span class="num">128</span>
+              <span class="delta">+12 ↗</span>
+            </div>
+          </div>
+          <div class="dual__foot">
+            <span>5 layers · 1 accent · 0 borders</span>
+            <span class="dots"><i class="fill"></i><i></i><i></i><i></i><i></i></span>
+          </div>
+        </div>
+
+        <!-- DARK -->
+        <div class="dual__panel">
+          <div class="dual__head">
+            <span class="dual__label">Dark · 深色系</span>
+            <span class="dual__hex">#0a0a0a → #1c1c1c</span>
+          </div>
+          <div class="demo-card">
+            <div class="row1">
+              <span class="title">月度审美决策</span>
+              <span class="tag">ACTIVE</span>
+            </div>
+            <div class="row2">每一个像素都问一次"它为什么在这里"。问不出来,就删掉。</div>
+            <div class="row3">
+              <span class="num">128</span>
+              <span class="delta">+12 ↗</span>
+            </div>
+          </div>
+          <div class="dual__foot">
+            <span>5 layers · 1 accent · 0 borders</span>
+            <span class="dots"><i class="fill"></i><i></i><i></i><i></i><i></i></span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 01 克制优雅 ──────────────────────────────────── -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="num">01 / 05</span>
+        <div>
+          <h2 class="subtitle">克制优雅</h2>
+          <em class="en">Less, but deliberate.</em>
+          <p class="body lede">
+            好设计不是"加到好看",是"减到刚好"。每个视觉元素必须有存在理由,
+            问不出理由就删掉。装饰 ≠ 美。<span class="accent">一个精心选择的渐变 > 十个随意的阴影</span>。
+          </p>
+        </div>
+      </div>
+
+      <div class="prin-grid">
+        <div class="prin-explain">
+          <div class="card card--tight">
+            <div class="stack-12">
+              <span class="caption">Decision rule</span>
+              <p class="body">问不出存在理由,就删掉。</p>
+              <div class="divider"></div>
+              <span class="caption">Anti</span>
+              <ul>
+                <li>渐变彩虹色 — <strong>没有审美判断的堆砌</strong></li>
+                <li>随机阴影叠加</li>
+                <li>无理由的圆角变化</li>
+                <li>为动画而动画</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="prin-show">
+          <div class="restraint">
+            <div class="restraint__col">
+              <span class="restraint__tag bad">反例 · 加法思维</span>
+              <div class="btn-row">
+                <button class="btn b-red">主操作</button>
+                <button class="btn b-blue">次操作</button>
+                <button class="btn b-green">完成</button>
+                <button class="btn b-purple">设置</button>
+                <button class="btn b-orange">分享</button>
+              </div>
+              <span class="restraint__note">5 个动作 / 5 种颜色 / 0 个层级</span>
+            </div>
+            <div class="restraint__col">
+              <span class="restraint__tag good">正例 · 减法思维</span>
+              <div class="btn-row">
+                <button class="btn b-primary">主操作</button>
+                <button class="btn">次操作</button>
+                <button class="btn">完成</button>
+                <button class="btn">设置</button>
+                <button class="btn">分享</button>
+              </div>
+              <span class="restraint__note">5 个动作 / 2 种权重 / 1 处强调</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 02 灰阶为基 ──────────────────────────────────── -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="num">02 / 05</span>
+        <div>
+          <h2 class="subtitle">灰阶为基</h2>
+          <em class="en">Color is punctuation, not prose.</em>
+          <p class="body lede">
+            灰阶是画布,颜色是标点。大面积用灰阶建立层次,色彩只用在需要注意力的地方。
+            <span class="accent">彩色占比 ≤ 15%</span>,一个主色 + 一个强调色足矣——不需要"调色盘"。
+          </p>
+        </div>
+      </div>
+
+      <div class="prin-grid">
+        <div class="prin-explain">
+          <div class="card card--tight">
+            <div class="stack-12">
+              <span class="caption">Ratio</span>
+              <p class="body">85% 灰阶 · 15% 强调色</p>
+              <div class="ratio-bar">
+                <div class="seg-gray"></div>
+                <div class="seg-accent"></div>
+              </div>
+              <div class="ratio-legend">
+                <span>灰阶承担结构</span>
+                <span>彩色承担注意力</span>
+              </div>
+              <div class="divider"></div>
+              <span class="caption">Anti</span>
+              <ul>
+                <li>渐变彩虹背景</li>
+                <li>多主色"调色盘"</li>
+                <li>用色彩划分模块</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="prin-show">
+          <div class="card card--loose">
+            <span class="caption" style="display:block; margin-bottom: 18px;">11 级灰阶 + 1 个强调色出现位置</span>
+            <div class="gray-ramp">
+              <div class="swatch" style="background:#fafafa; color:#525252;">fa</div>
+              <div class="swatch" style="background:#f0f0f0; color:#525252;">f0</div>
+              <div class="swatch" style="background:#e0e0e0; color:#525252;">e0</div>
+              <div class="swatch" style="background:#c0c0c0; color:#222;">c0</div>
+              <div class="swatch" style="background:#909090; color:#fff;">90</div>
+              <div class="swatch" style="background:#666; color:#fff;">66</div>
+              <div class="swatch" style="background:#444; color:#fff;">44</div>
+              <div class="swatch accent">d97757</div>
+              <div class="swatch" style="background:#2a2a2a; color:#a3a3a3;">2a</div>
+              <div class="swatch" style="background:#161616; color:#a3a3a3;">16</div>
+              <div class="swatch" style="background:#0a0a0a; color:#a3a3a3;">0a</div>
+            </div>
+            <p class="body body--quiet" style="margin-top: 20px; font-size: 13px;">
+              强调色不是"配色",是<strong style="color: var(--accent); font-weight: 500;">中断</strong>——
+              它打破灰阶的均匀,把视线钉在某一处。所以它必须稀少,稀少才有打断的力量。
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 03 严格层级 ──────────────────────────────────── -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="num">03 / 05</span>
+        <div>
+          <h2 class="subtitle">严格层级</h2>
+          <em class="en">Every size has a reason.</em>
+          <p class="body lede">
+            字号不是"大中小",是有严格定义的 5 级系统。跨级使用,级内一致。
+            <span class="accent">单视图字号数量上限 5 个</span>,跨级比例 ≥ 1.4x。强调用字重,不用字号变化。
+          </p>
+        </div>
+      </div>
+
+      <div class="prin-grid">
+        <div class="prin-explain">
+          <div class="card card--tight">
+            <div class="stack-12">
+              <span class="caption">5 vectors of emphasis</span>
+              <ul>
+                <li><strong>Scale</strong> — 字号</li>
+                <li><strong>Weight</strong> — 字重</li>
+                <li><strong>Spacing</strong> — 行距/字距</li>
+                <li><strong>Tracking</strong> — 字间距</li>
+                <li><strong>Alignment</strong> — 对齐</li>
+              </ul>
+              <div class="divider"></div>
+              <p class="body body--quiet" style="font-size: 13px;">
+                至少 2 个 vector 同向才算 dominant。
+                单一 vector 的对比不够"硬",层级会发软。
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="prin-show">
+          <div class="scale-list">
+            <div class="scale-row s-display">
+              <span class="level">Display</span>
+              <span class="sample">Aa 拼</span>
+              <span class="meta-r">96–120 / 700</span>
+            </div>
+            <div class="scale-row s-headline">
+              <span class="level">Headline</span>
+              <span class="sample">Aa 拼拼</span>
+              <span class="meta-r">48–72 / 700</span>
+            </div>
+            <div class="scale-row s-subtitle">
+              <span class="level">Subtitle</span>
+              <span class="sample">Aa 张拼拼的视觉</span>
+              <span class="meta-r">28–32 / 600</span>
+            </div>
+            <div class="scale-row s-body">
+              <span class="level">Body</span>
+              <span class="sample">Aa 这是正文,每一段都在解释判断。</span>
+              <span class="meta-r">18–22 / 400</span>
+            </div>
+            <div class="scale-row s-caption">
+              <span class="level">Caption</span>
+              <span class="sample">VERSION · 2026</span>
+              <span class="meta-r">13–15 / 400</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 04 玻璃拟态 ──────────────────────────────────── -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="num">04 / 05</span>
+        <div>
+          <h2 class="subtitle">玻璃拟态</h2>
+          <em class="en">Depth through light.</em>
+          <p class="body lede">
+            玻璃效果不是"加个模糊",是用光、透明度、层叠创造空间纵深感。
+            <span class="accent">三层结构</span>缺一不可:背景层 (暗/纹理) → 玻璃层 (半透明 + 模糊) → 内容层 (清晰文字)。
+          </p>
+        </div>
+      </div>
+
+      <div class="prin-grid">
+        <div class="prin-explain">
+          <div class="card card--tight">
+            <div class="stack-12">
+              <span class="caption">Three layers, in order</span>
+            </div>
+            <div class="glass-layers">
+              <div class="glass-layer">
+                <span class="ix">L1</span>
+                <span class="nm">背景层<span>暗色 + 噪点 + 微妙渐变</span></span>
+                <span class="vl">noise 0.05</span>
+              </div>
+              <div class="glass-layer">
+                <span class="ix">L2</span>
+                <span class="nm">玻璃层<span>半透明 + backdrop-blur</span></span>
+                <span class="vl">blur 48px</span>
+              </div>
+              <div class="glass-layer">
+                <span class="ix">L3</span>
+                <span class="nm">内容层<span>清晰文字 + 高对比</span></span>
+                <span class="vl">opacity 1</span>
+              </div>
+            </div>
+            <p class="body body--quiet" style="font-size: 13px; margin-top: 14px;">
+              <strong style="color: var(--fg-1);">暗底 + 亮玻璃 &gt; 亮底 + 暗玻璃</strong>。
+              深色背景上的浅色玻璃,层次比反过来更分明。
+            </p>
+          </div>
+        </div>
+
+        <div class="prin-show">
+          <div class="glass-stack">
+            <div class="glass-stack__noise"></div>
+            <div class="glass-stack__pane">
+              <span class="label">L2 · GLASS</span>
+              <span class="title">玻璃在彩色背景上才显形</span>
+              <span class="desc">
+                把这块玻璃放到纯灰背景上,它就消失了。
+                玻璃需要被"映"出来——背景有色彩信息,玻璃才有可被模糊的内容,
+                才能体现"前面有一层东西"的纵深。
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 05 密度呼吸 ──────────────────────────────────── -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="num">05 / 05</span>
+        <div>
+          <h2 class="subtitle">密度呼吸</h2>
+          <em class="en">Every pixel of whitespace is intentional.</em>
+          <p class="body lede">
+            不是"留白越多越好",是信息密度和呼吸感的精确平衡。
+            <span class="accent">相关元素紧密,无关元素远离</span>——卡片内紧凑 (12-16px),卡片间宽松 (24-32px)。
+          </p>
+        </div>
+      </div>
+
+      <div class="prin-grid">
+        <div class="prin-explain">
+          <div class="card card--tight">
+            <div class="stack-12">
+              <span class="caption">Gestalt · 亲近性</span>
+              <p class="body">
+                视线把<strong>距离近的元素</strong>认作一组,把<strong>距离远的元素</strong>认作不同组。
+                所以留白本身就是分组——比边框、分隔线、背景色更优雅。
+              </p>
+              <div class="divider"></div>
+              <span class="caption">Rule of thumb</span>
+              <ul>
+                <li>卡片内 padding: <strong>12–16px</strong></li>
+                <li>卡片间 gap: <strong>24–32px</strong></li>
+                <li>区块间隔: <strong>80–160px</strong></li>
+                <li>滚动条/分隔线: 越少越好</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="prin-show">
+          <div class="density">
+            <div class="density__col">
+              <span class="lab">反例<span>padding 4 · gap 2</span></span>
+              <div class="density__demo density__demo--cramped">
+                <div class="item">第一项</div>
+                <div class="item">第二项</div>
+                <div class="item">第三项</div>
+                <div class="item">第四项</div>
+                <div class="item">第五项</div>
+              </div>
+              <span class="density__note">紧到分不出层级,看起来像列表的尸体。</span>
+            </div>
+            <div class="density__col">
+              <span class="lab">正例<span>padding 20 · gap 10</span></span>
+              <div class="density__demo density__demo--good">
+                <div class="item">第一项</div>
+                <div class="item">第二项</div>
+                <div class="item">第三项</div>
+              </div>
+              <span class="density__note">紧凑但不拥挤,留白告诉视线"这是一组"。</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 决策框架 ─────────────────────────────────────── -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="num">// Framework</span>
+        <div>
+          <h2 class="subtitle">审美决策框架</h2>
+          <em class="en">Five questions, in order.</em>
+          <p class="body lede">
+            面对任何一个设计选择时,按这五个问题顺序判断。
+            <span class="accent">前面的问题没过,后面的就不用问</span>——决策有优先级,跳级是错的。
+          </p>
+        </div>
+      </div>
+
+      <div class="frame">
+        <div class="frame__row">
+          <span class="frame__num">01</span>
+          <div class="frame__q">有存在理由吗?<span>Does it earn its pixels?</span></div>
+          <span class="frame__a">→ 没有就删掉</span>
+        </div>
+        <div class="frame__row">
+          <span class="frame__num">02</span>
+          <div class="frame__q">层级清晰吗?<span>Can the eye find the priority in 0.5s?</span></div>
+          <span class="frame__a">→ 跨级 ≥ 1.4x</span>
+        </div>
+        <div class="frame__row">
+          <span class="frame__num">03</span>
+          <div class="frame__q">色彩克制吗?<span>Does color earn the attention?</span></div>
+          <span class="frame__a">→ 彩色 ≤ 15%</span>
+        </div>
+        <div class="frame__row">
+          <span class="frame__num">04</span>
+          <div class="frame__q">有纵深感吗?<span>Is the interface layered, not flat?</span></div>
+          <span class="frame__a">→ 三层结构</span>
+        </div>
+        <div class="frame__row">
+          <span class="frame__num">05</span>
+          <div class="frame__q">呼吸感对吗?<span>Are tight things tight, loose things loose?</span></div>
+          <span class="frame__a">→ 12 内 · 24 间</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 反模式 ───────────────────────────────────────── -->
+  <section>
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="num">// Anti-patterns</span>
+        <div>
+          <h2 class="subtitle">绝对避免</h2>
+          <em class="en">If you see these, the system has already failed.</em>
+          <p class="body lede">
+            反模式不是品味问题,是<span class="accent">系统失效</span>的证据——
+            它意味着某一处没有做决策,而是用了默认值。
+          </p>
+        </div>
+      </div>
+
+      <div class="anti-grid">
+        <div class="anti">
+          <div class="anti__head"><span class="anti__x">×</span><span class="anti__t">渐变彩虹背景</span></div>
+          <div class="anti__d">紫→粉→蓝的"AI 感"渐变,没有任何审美判断,是默认 SaaS landing page 的视觉投降。</div>
+          <div class="anti__why"><b>失败点</b> · 把"看起来现代"当成审美</div>
+        </div>
+        <div class="anti">
+          <div class="anti__head"><span class="anti__x">×</span><span class="anti__t">所有元素等大等重</span></div>
+          <div class="anti__d">没有层级就没有设计。读者不知道先看哪里,所有信息一起喊,等于没人说话。</div>
+          <div class="anti__why"><b>失败点</b> · 怕做减法</div>
+        </div>
+        <div class="anti">
+          <div class="anti__head"><span class="anti__x">×</span><span class="anti__t">用边框分隔一切</span></div>
+          <div class="anti__d">间距和背景色差异是更优雅的分隔。边框是补丁,告诉用户"我不会做留白"。</div>
+          <div class="anti__why"><b>失败点</b> · 把视觉噪音当结构</div>
+        </div>
+        <div class="anti">
+          <div class="anti__head"><span class="anti__x">×</span><span class="anti__t">纯白大面积背景</span></div>
+          <div class="anti__d">#ffffff 太刺眼。用 #fafafa 或带微妙噪点的灰白,眼睛舒服 10 倍。</div>
+          <div class="anti__why"><b>失败点</b> · 把"默认"当"正确"</div>
+        </div>
+        <div class="anti">
+          <div class="anti__head"><span class="anti__x">×</span><span class="anti__t">Inter + 紫色 + 白底</span></div>
+          <div class="anti__d">通用 AI 审美。零辨识度。一千个 SaaS 长一样。PPVI 用系统字体 + 灰阶 + 单一赭红故意拒绝它。</div>
+          <div class="anti__why"><b>失败点</b> · 没有立场</div>
+        </div>
+        <div class="anti">
+          <div class="anti__head"><span class="anti__x">×</span><span class="anti__t">为动画而动画</span></div>
+          <div class="anti__d">动画是为了传达层级变化和状态。slide-in / fade-up 的炫技堆叠,是设计师在替自己表演。</div>
+          <div class="anti__why"><b>失败点</b> · 服务自己而非用户</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── Footer ───────────────────────────────────────── -->
+  <footer>
+    <div class="wrap">
+      <div class="foot-grid">
+        <div>
+          <div class="big">Restraint<br/>is a stance.</div>
+          <p class="body body--quiet" style="margin-top: 18px; max-width: 520px;">
+            克制不是风格选择,是立场。它说:"我知道可以加,我选择不加。"
+            这才是 PPVI 想守护的东西。
+          </p>
+        </div>
+        <div class="foot-meta">
+          <span class="k">SYSTEM</span><span class="v">PPVI v1.0</span>
+          <span class="k" style="margin-top: 8px;">AUTHOR</span><span class="v">张拼拼 · Max Pin</span>
+          <span class="k" style="margin-top: 8px;">YEAR</span><span class="v">2026</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</main>
+
+</body>
+</html>
