@@ -1,0 +1,244 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ppvi · PinPin Visual Identity — a design-taste methodology for AI pages</title>
+<meta name="description" content="ppvi (PinPin Visual Identity) is a Claude Code / Agent skill: a battle-tested design-taste methodology that makes AI-built pages look intentional. Five core principles — restraint, grayscale base, strict 5-level type hierarchy, glassmorphism depth, density & breath — plus a dark/light dual system. ppvi decides how to think; frontend-design writes how to build.">
+<link rel="canonical" href="https://xntj-ai.github.io/ppvi/">
+<link rel="alternate" hreflang="en" href="https://xntj-ai.github.io/ppvi/">
+<link rel="alternate" hreflang="zh-Hans" href="https://xntj-ai.github.io/ppvi/index.zh.html">
+<link rel="alternate" hreflang="x-default" href="https://xntj-ai.github.io/ppvi/">
+<meta property="og:type" content="website">
+<meta property="og:title" content="ppvi · PinPin Visual Identity — a design-taste methodology for AI pages">
+<meta property="og:description" content="A Claude Code / Agent skill: five design principles that make AI pages look intentional, not generic. ppvi decides how to think; frontend-design writes how to build.">
+<meta property="og:locale" content="en_US">
+<style>
+:root{
+  --bg:#FAF8F4; --surf:#FFFFFF; --line:#ECE6DC; --line2:#E2DACB;
+  --ink:#2A2722; --ink2:#6B6356; --mut:#9A9082;
+  --gold:#C8922E; --gold2:#F0B24A; --jade:#1f6f5c; --terra:#B4502E; --blue:#3E6B8C;
+  --r:16px;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,"PingFang SC","Microsoft YaHei",Segoe UI,system-ui,sans-serif;
+  font-size:15px;line-height:1.7;-webkit-font-smoothing:antialiased;letter-spacing:.1px}
+a{color:var(--gold);text-decoration:none} a:hover{text-decoration:underline}
+.wrap{max-width:1080px;margin:0 auto;padding:30px 28px 90px}
+
+/* top bar */
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  padding-bottom:22px;border-bottom:1px solid var(--line);margin-bottom:8px;flex-wrap:wrap}
+.brand{display:flex;align-items:center;gap:11px;font-weight:740;font-size:16px;letter-spacing:-.2px}
+.brand .tag{font-size:11px;font-weight:700;letter-spacing:1.2px;color:var(--gold);
+  background:#FAF1DF;border:1px solid #EBD9B6;padding:2px 9px;border-radius:20px;text-transform:uppercase}
+.nav{display:flex;align-items:center;gap:16px;font-size:13.5px;color:var(--ink2)}
+.nav .lang{color:var(--mut)} .nav .lang b{color:var(--ink)}
+
+/* hero */
+.kicker{font-size:12.5px;letter-spacing:2.5px;color:var(--gold);font-weight:700;text-transform:uppercase}
+h1{font-size:38px;line-height:1.18;letter-spacing:-.6px;margin:14px 0 12px;font-weight:790}
+.lead{color:var(--ink2);font-size:17px;max-width:760px;margin:0}
+.intro{color:var(--ink2);font-size:15.5px;max-width:800px;margin:18px 0 0}
+
+h2{font-size:23px;letter-spacing:-.3px;margin:62px 0 6px;font-weight:730;display:flex;align-items:center;gap:11px}
+h2 .dot{width:9px;height:9px;border-radius:50%;background:var(--gold);flex:none}
+.sub{color:var(--ink2);font-size:14.5px;margin:0 0 4px}
+.note{color:var(--mut);font-size:13px;margin-top:12px;line-height:1.6}
+b{font-weight:680}
+code{font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;font-size:12.5px;
+  background:#F3EEE5;border:1px solid var(--line);border-radius:6px;padding:1px 6px;color:var(--terra)}
+
+/* pipeline flow */
+.flow{display:flex;align-items:stretch;gap:10px;margin-top:26px;flex-wrap:wrap}
+.fstep{flex:1;min-width:158px;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);
+  padding:18px 17px;position:relative;box-shadow:0 1px 2px rgba(42,39,34,.03)}
+.fstep .fk{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mut);font-weight:700}
+.fstep h4{margin:8px 0 6px;font-size:15.5px;font-weight:730;letter-spacing:-.2px}
+.fstep p{margin:0;font-size:13px;color:var(--ink2);line-height:1.55}
+.fstep.fin{border-color:#E6C98A;background:linear-gradient(180deg,#FFFDF8,#FFF)}
+.fstep.fin .fk{color:var(--gold)}
+.farr{display:flex;align-items:center;color:#CDB892;font-size:22px;font-weight:400;flex:none;padding:0 2px}
+@media(max-width:720px){.farr{transform:rotate(90deg);align-self:center;padding:3px 0}.fstep{min-width:100%}.flow{flex-direction:column}}
+
+/* shapes */
+.shapes{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+.shape{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:22px 18px;text-align:center;
+  box-shadow:0 1px 2px rgba(42,39,34,.03)}
+.shape svg{display:block;margin:0 auto 14px}
+.shape .sn{font-size:15px;font-weight:730} .shape .se{font-size:12.5px;color:var(--mut);letter-spacing:.5px}
+.shape p{margin:8px 0 0;font-size:13px;color:var(--ink2);line-height:1.55}
+.variants{display:flex;flex-wrap:wrap;gap:10px;margin-top:16px}
+.vchip{display:inline-flex;align-items:center;gap:7px;font-size:12.5px;color:var(--ink2);
+  background:var(--surf);border:1px solid var(--line);border-radius:20px;padding:5px 12px}
+.vdot{width:10px;height:10px;border-radius:50%;flex:none}
+@media(max-width:720px){.shapes{grid-template-columns:1fr}}
+
+/* architecture */
+.arch{margin-top:24px;background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:26px 24px;
+  box-shadow:0 1px 2px rgba(42,39,34,.03)}
+.archcdn{max-width:360px;margin:0 auto;text-align:center;border:1px dashed var(--line2);border-radius:12px;
+  padding:11px 14px;font-size:13px;color:var(--ink2);background:#FBF8F2}
+.archcdn b{color:var(--ink)}
+.archpipe{width:1px;height:26px;background:var(--line2);margin:0 auto;position:relative}
+.archpipe::after{content:"▼";position:absolute;left:-6px;bottom:-4px;color:#CDB892;font-size:11px}
+.archfile{border:1.5px solid var(--gold);border-radius:14px;padding:8px 8px 14px;background:#FFFDF8;max-width:560px;margin:0 auto;position:relative}
+.archfile .ft{display:inline-block;font-size:12px;font-weight:720;color:var(--gold);background:#FFFDF8;
+  padding:0 10px;position:relative;top:-18px;left:8px;letter-spacing:.3px}
+.archrow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:-6px;padding:0 8px}
+.archbox{background:var(--surf);border:1px solid var(--line);border-radius:10px;padding:13px 14px}
+.archbox .bk{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--mut);font-weight:700}
+.archbox h4{margin:5px 0 4px;font-size:14px;font-weight:720} .archbox p{margin:0;font-size:12.5px;color:var(--ink2);line-height:1.5}
+.archnote{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:18px}
+.anote{font-size:12.5px;color:var(--jade);background:#E3EFE9;border:1px solid #CDE5DB;border-radius:20px;padding:4px 13px;font-weight:600}
+@media(max-width:720px){.archrow{grid-template-columns:1fr}}
+
+/* feature cards */
+.cards{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-top:24px}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:22px 22px 20px;position:relative;overflow:hidden;box-shadow:0 1px 2px rgba(42,39,34,.03)}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--gold)}
+.card h3{margin:0 0 8px;font-size:16.5px;font-weight:730;letter-spacing:-.2px}
+.card p{margin:0;color:var(--ink2);font-size:14px}
+@media(max-width:720px){.cards{grid-template-columns:1fr}}
+
+/* two panels */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:24px;align-items:start}
+.panel{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:22px;box-shadow:0 1px 2px rgba(42,39,34,.03)}
+.panel .pk{font-size:11.5px;letter-spacing:1.5px;font-weight:700;text-transform:uppercase}
+.panel.ok .pk{color:var(--jade)} .panel.no .pk{color:var(--terra)}
+.panel h3{margin:6px 0 0;font-size:16px;font-weight:730}
+.panel ul{margin:12px 0 0;padding-left:18px;color:var(--ink2);font-size:14px} .panel li{margin:6px 0}
+@media(max-width:720px){.two{grid-template-columns:1fr}}
+
+/* quick start */
+.steps{counter-reset:s;margin-top:24px;display:grid;gap:12px}
+.step{display:grid;grid-template-columns:34px 1fr;gap:14px;align-items:start;background:var(--surf);
+  border:1px solid var(--line);border-radius:var(--r);padding:16px 18px}
+.step::before{counter-increment:s;content:counter(s);width:28px;height:28px;border-radius:50%;
+  background:#FAF1DF;border:1px solid #EBD9B6;color:var(--gold);font-weight:760;font-size:14px;
+  display:flex;align-items:center;justify-content:center}
+.step>div{min-width:0} .step h4{margin:2px 0 4px;font-size:15px;font-weight:720} .step p{margin:0;font-size:13.5px;color:var(--ink2)}
+pre{background:#2A2722;color:#F3EEE5;border-radius:10px;padding:13px 15px;overflow-x:auto;font-size:12.5px;
+  font-family:"SF Mono",ui-monospace,Menlo,Consolas,monospace;line-height:1.6;margin:8px 0 0}
+
+footer{margin-top:74px;color:var(--mut);font-size:12.5px;border-top:1px solid var(--line);padding-top:22px;
+  display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+footer a{color:var(--ink2)}
+</style></head><body><div class="wrap">
+
+<div class="topbar">
+  <div class="brand">ppvi <span class="tag">Claude Code Skill</span></div>
+  <div class="nav">
+    <span class="lang"><b>English</b> · <a href="./index.zh.html">中文</a></span>
+    <a href="https://github.com/xntj-ai/ppvi">GitHub ↗</a>
+  </div>
+</div>
+
+<div class="kicker">PinPin Visual Identity · Design-taste methodology</div>
+<h1>Make AI-built pages<br>look intentional, not generic</h1>
+<p class="lead">ppvi is a Claude Code / Agent skill — <b>not code, a way of thinking</b>. Install it and every page Claude builds is produced under one taste framework: five core principles, a dark/light dual system, and full-screen / half-screen / mobile adaptation.</p>
+<p class="intro">Claude Code's design ability is already strong, but left alone the output carries the "generic AI" tell — Inter font, purple gradient, pure-white background, random rounded corners. The problem isn't skill, it's the absence of taste <i>constraints</i>: anything is possible, so nothing is decided. ppvi supplies the missing layer, telling the model <b>why</b> this color, this spacing, this weight — so taste becomes reproducible instead of accidental.</p>
+
+<h2><span class="dot"></span>The five principles</h2>
+<p class="sub">Five rules distilled over six months of real sharing pages — the structural backbone of every ppvi design.</p>
+<div class="cards">
+  <div class="card"><h3>1 · Restraint <span style="color:var(--mut);font-weight:600;font-size:13px">克制优雅</span></h3><p>Design is subtraction. Every element must justify itself — if you can't name a reason, delete it. One deliberate gradient beats ten random shadows.</p></div>
+  <div class="card"><h3>2 · Grayscale base <span style="color:var(--mut);font-weight:600;font-size:13px">灰阶为基</span></h3><p>Grayscale is the canvas, color is the punctuation. Large areas stay neutral; color (≤ 15%) appears only where attention belongs.</p></div>
+  <div class="card"><h3>3 · Strict hierarchy <span style="color:var(--mut);font-weight:600;font-size:13px">严格层级</span></h3><p>Not "big / medium / small" — a defined 5-level scale, ≥ 1.4× between levels, consistent within. Emphasis comes from weight, not size.</p></div>
+  <div class="card"><h3>4 · Glassmorphism <span style="color:var(--mut);font-weight:600;font-size:13px">玻璃拟态</span></h3><p>Not "add a blur" — light, transparency and stacking that create real depth. Background → glass layer (blur 32–64px) → crisp content.</p></div>
+  <div class="card"><h3>5 · Density &amp; breath <span style="color:var(--mut);font-weight:600;font-size:13px">密度呼吸</span></h3><p>Whitespace is functional, not empty. Tight inside, loose between — card padding 12–16px, card gap 24–32px. Islands, with ocean around them.</p></div>
+  <div class="card" style="border-style:dashed"><h3 style="color:var(--ink2)">+ Two execution rules <span style="color:var(--mut);font-weight:600;font-size:13px">执行规则</span></h3><p><b>Responsive</b> — fluid <code>clamp()</code> type, container queries, Chinese line-breaking. <b>Diagram, don't paragraph</b> — an 11-type chart catalog with hypothesis-driven titles.</p></div>
+</div>
+
+<h2><span class="dot"></span>Strict hierarchy, visualized</h2>
+<p class="sub">A 5-level type scale and a grayscale ramp — the two systems behind "looks ordered" before any color is added.</p>
+<div class="arch">
+  <svg width="100%" viewBox="0 0 760 286" style="display:block;max-width:720px;margin:0 auto" font-family="-apple-system,Segoe UI,sans-serif">
+    <!-- baseline -->
+    <line x1="40" y1="14" x2="40" y2="248" stroke="#E2DACB" stroke-width="1"/>
+    <!-- L1 Display -->
+    <text x="58" y="46" font-size="42" font-weight="790" letter-spacing="-1" fill="#2A2722">Display</text>
+    <text x="540" y="40" font-size="12.5" font-weight="700" fill="#9A9082" letter-spacing="1">LEVEL 1</text>
+    <text x="540" y="56" font-size="13" fill="#6B6356">96–120px · 700</text>
+    <text x="690" y="49" font-size="12" font-weight="700" fill="#C8922E">×1.67</text>
+    <line x1="40" y1="66" x2="720" y2="66" stroke="#F0EAE0" stroke-width="1"/>
+    <!-- L2 Headline -->
+    <text x="58" y="98" font-size="28" font-weight="730" letter-spacing="-.5" fill="#2A2722">Headline</text>
+    <text x="540" y="92" font-size="12.5" font-weight="700" fill="#9A9082" letter-spacing="1">LEVEL 2</text>
+    <text x="540" y="108" font-size="13" fill="#6B6356">48–72px · 700</text>
+    <text x="690" y="101" font-size="12" font-weight="700" fill="#C8922E">×2.25</text>
+    <line x1="40" y1="118" x2="720" y2="118" stroke="#F0EAE0" stroke-width="1"/>
+    <!-- L3 Subtitle -->
+    <text x="58" y="148" font-size="20" font-weight="700" fill="#2A2722">Subtitle</text>
+    <text x="540" y="142" font-size="12.5" font-weight="700" fill="#9A9082" letter-spacing="1">LEVEL 3</text>
+    <text x="540" y="158" font-size="13" fill="#6B6356">28–32px · 600</text>
+    <text x="690" y="151" font-size="12" font-weight="700" fill="#C8922E">×1.45</text>
+    <line x1="40" y1="170" x2="720" y2="170" stroke="#F0EAE0" stroke-width="1"/>
+    <!-- L4 Body -->
+    <text x="58" y="196" font-size="16" font-weight="450" fill="#2A2722">Body — paragraph and list text</text>
+    <text x="540" y="190" font-size="12.5" font-weight="700" fill="#9A9082" letter-spacing="1">LEVEL 4</text>
+    <text x="540" y="206" font-size="13" fill="#6B6356">18–22px · 400</text>
+    <text x="690" y="199" font-size="12" font-weight="700" fill="#C8922E">×1.47</text>
+    <line x1="40" y1="216" x2="720" y2="216" stroke="#F0EAE0" stroke-width="1"/>
+    <!-- L5 Caption -->
+    <text x="58" y="238" font-size="13" font-weight="400" fill="#6B6356">Caption — page numbers, timestamps, meta</text>
+    <text x="540" y="232" font-size="12.5" font-weight="700" fill="#9A9082" letter-spacing="1">LEVEL 5</text>
+    <text x="540" y="248" font-size="13" fill="#6B6356">13–15px · 400</text>
+    <!-- grayscale ramp -->
+    <text x="40" y="278" font-size="12.5" font-weight="700" fill="#9A9082" letter-spacing=".5">GRAYSCALE CANVAS</text>
+    <rect x="250" y="266" width="92" height="16" rx="3" fill="#FAFAFA" stroke="#E2DACB" stroke-width="1"/>
+    <rect x="346" y="266" width="92" height="16" rx="3" fill="#FFFFFF" stroke="#E2DACB" stroke-width="1"/>
+    <rect x="442" y="266" width="92" height="16" rx="3" fill="#F5F5F5" stroke="#E2DACB" stroke-width="1"/>
+    <rect x="538" y="266" width="92" height="16" rx="3" fill="#E0E0E0" stroke="#E2DACB" stroke-width="1"/>
+    <rect x="634" y="266" width="42" height="16" rx="3" fill="#C8922E"/>
+    <text x="296" y="278" font-size="9.5" fill="#9A9082" text-anchor="middle">#fafafa</text>
+    <text x="392" y="278" font-size="9.5" fill="#9A9082" text-anchor="middle">#fff</text>
+    <text x="488" y="278" font-size="9.5" fill="#9A9082" text-anchor="middle">#f5f5f5</text>
+    <text x="584" y="278" font-size="9.5" fill="#6B6356" text-anchor="middle">#e0e0e0</text>
+    <text x="655" y="278" font-size="9" fill="#fff" text-anchor="middle" font-weight="700">≤15%</text>
+  </svg>
+  <div class="archnote">
+    <span class="anote">5 sizes max per view</span>
+    <span class="anote">≥ 1.4× between levels</span>
+    <span class="anote">emphasis by weight, not size</span>
+  </div>
+</div>
+<p class="note">Hierarchy isn't size alone. ppvi builds it from five vectors — <b>Scale · Weight · Spacing · Tracking · Alignment</b> — and a dominant element needs at least two of them pulling the same way. Weight runs on three steps: 400 read / 510–550 emphasize / 590–700 announce.</p>
+
+<h2><span class="dot"></span>ppvi vs frontend-design</h2>
+<p class="sub">Two skills, two layers — complementary, not competing. Install both and let taste and technique work as one pair of hands.</p>
+<div class="two">
+  <div class="panel ok"><div class="pk" style="color:var(--gold)">ppvi · How to think</div><h3>Aesthetic decisions</h3>
+    <ul><li>Why <i>this</i> color, this spacing, this weight</li><li>Whether an element earns its place</li><li>Whether the hierarchy reads in 0.5s</li><li>Output: a taste framework + checklist</li></ul></div>
+  <div class="panel no"><div class="pk" style="color:var(--blue)">frontend-design · How to write</div><h3>Technical execution</h3>
+    <ul><li>How to code, animate, Tailwind it</li><li>Component structure and state</li><li>Production-grade, ships to the browser</li><li>Output: real, working code</li></ul></div>
+</div>
+<p class="note">ppvi decides <b>what is right</b>; frontend-design makes it <b>real</b>. Run the design through ppvi's framework first, then hand the decisions to frontend-design to build.</p>
+
+<h2><span class="dot"></span>Core ideas</h2>
+<div class="cards">
+  <div class="card"><h3>Methodology, not code</h3><p>No library to import, no build step — a set of taste rules Claude reads and applies to whatever it builds (HTML/CSS, a React component, a report page).</p></div>
+  <div class="card"><h3>Dark / light dual system</h3><p>A full dark and light scope. Dark shows depth most clearly; most xntj.tv sharing pages run light-mode ppvi.</p></div>
+  <div class="card"><h3>One accent, used well</h3><p>A single accent color (the demo's is <code>#d97757</code>) carries all the attention; grayscale does everything else. Color is punctuation, not prose.</p></div>
+  <div class="card"><h3>Anti-pattern aware</h3><p>An explicit list of tells to avoid — Inter-only fonts, purple gradients, pure-white fields, random corner values, Excel-default charts.</p></div>
+</div>
+
+<h2><span class="dot"></span>When to use</h2>
+<div class="two">
+  <div class="panel ok"><div class="pk">Good fit</div><h3>When taste is the decision</h3>
+    <ul><li>Sharing pages, reports, dashboards, landing pages, posters</li><li>Building a visual system or defining a UI style</li><li>Any "looks good but I can't say why" call</li></ul></div>
+  <div class="panel no"><div class="pk">Not for</div><h3>When it's not a taste problem</h3>
+    <ul><li>Pure technical implementation — use <code>frontend-design</code></li><li>Brand logo design — needs a brand-identity process</li><li>Print / CMYK — ppvi targets screens</li></ul></div>
+</div>
+
+<h2><span class="dot"></span>Quick start</h2>
+<div class="steps">
+  <div class="step"><div><h4>Install into your Claude Code skills directory</h4><pre>git clone https://github.com/xntj-ai/ppvi.git ~/.claude/skills/ppvi</pre></div></div>
+  <div class="step"><div><h4>Ask Claude to apply ppvi</h4><p>For example, "use ppvi to design this report page," or "apply ppvi and tell me why this layout works" — it runs the five-principle decision framework on your design.</p></div></div>
+  <div class="step"><div><h4>Pair it with frontend-design</h4><p>Let ppvi decide what's right (taste), then hand the decisions to <code>frontend-design</code> to build (technique). Open <a href="https://github.com/xntj-ai/ppvi/blob/main/demo/index.html">demo/index.html</a> to see every principle applied at once.</p></div></div>
+</div>
+
+<footer>
+  <span>ppvi · MIT License · © <a href="https://xntj.tv">张拼拼 · XNTJ</a></span>
+  <span><a href="https://github.com/xntj-ai/ppvi">GitHub</a> · <a href="https://github.com/xntj-ai/flowmaker">flowmaker</a> · <a href="https://github.com/xntj-ai/creator-analytics">creator-analytics</a> · <a href="./index.zh.html">中文</a></span>
+</footer>
+
+</div></body></html>
